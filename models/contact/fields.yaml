@@ -1,0 +1,21 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    id:
+      label: ID
+      disabled: true
+      hidden: true
+    type:
+      label: Type
+      type: text
+      required: true
+    label:
+      label: Label
+      type: text
+    value:
+      label: Value
+      type: text
+      required: true
+

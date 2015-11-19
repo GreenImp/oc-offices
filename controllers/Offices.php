@@ -1,0 +1,30 @@
+<?php namespace GreenImp\Offices\Controllers;
+
+use BackendMenu;
+use Backend\Classes\Controller;
+
+/**
+ * Offices Back-end Controller
+ */
+class Offices extends Controller
+{
+    public $implement = [
+        'Backend.Behaviors.FormController',
+        'Backend.Behaviors.ListController'
+    ];
+
+    public $formConfig = 'config_form.yaml';
+    public $listConfig = 'config_list.yaml';
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        BackendMenu::setContext('GreenImp.Offices', 'offices', 'offices');
+    }
+
+  public function index(){
+    // Call the ListController behavior index() method
+    $this->asExtension('ListController')->index();
+  }
+}

@@ -1,0 +1,5 @@
+1.0.1:
+    - First version of Offices
+    - create_office_groups_table.php
+    - create_offices_table.php
+    - create_office_contacts_table.php

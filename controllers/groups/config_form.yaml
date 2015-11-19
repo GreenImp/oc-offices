@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Group
+
+# Model Form Field configuration
+form: $/greenimp/offices/models/group/fields.yaml
+
+# Model Class name
+modelClass: GreenImp\Offices\Models\Group
+
+# Default redirect location
+defaultRedirect: greenimp/offices/groups
+
+# Create page
+create:
+    title: Create Group
+    redirect: greenimp/offices/groups/update/:id
+    redirectClose: greenimp/offices/groups
+
+# Update page
+update:
+    title: Edit Group
+    redirect: greenimp/offices/groups
+    redirectClose: greenimp/offices/groups
+
+# Preview page
+preview:
+    title: Preview Group

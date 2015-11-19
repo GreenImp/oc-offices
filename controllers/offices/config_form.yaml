@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Office
+
+# Model Form Field configuration
+form: $/greenimp/offices/models/office/fields.yaml
+
+# Model Class name
+modelClass: GreenImp\Offices\Models\Office
+
+# Default redirect location
+defaultRedirect: greenimp/offices/offices
+
+# Create page
+create:
+    title: Create Office
+    redirect: greenimp/offices/offices/update/:id
+    redirectClose: greenimp/offices/offices
+
+# Update page
+update:
+    title: Edit Office
+    redirect: greenimp/offices/offices
+    redirectClose: greenimp/offices/offices
+
+# Preview page
+preview:
+    title: Preview Office

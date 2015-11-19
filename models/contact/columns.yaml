@@ -1,0 +1,22 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+    office_id:
+      label: Office
+      relation: office
+      select: name
+      searchable: true
+    label:
+        label: Label
+        type: text
+        searchable: true
+    value:
+        label: Value
+        type: text
+        searchable: true
+
