@@ -25,7 +25,9 @@ class Plugin extends PluginBase
 
   public function registerComponents(){
     return [
-      'GreenImp\Offices\Components\OfficeList'  => 'officeList'
+      'GreenImp\Offices\Components\OfficeList'  => 'officeList',
+      'GreenImp\Offices\Components\GroupList'   => 'groupList',
+      'GreenImp\Offices\Components\GroupPage'   => 'groupPage'
     ];
   }
 

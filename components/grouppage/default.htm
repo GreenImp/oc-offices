@@ -1,0 +1,39 @@
+<h2>{{ __SELF__.group.name }}</h2>
+
+<p>This is {{ __SELF__.group.name }}</p>
+
+<div class="office-list">
+  <h3>Offices</h3>
+
+  <ul class="list-group">
+    {% for office in __SELF__.group.office %}
+      <li class="list-group-item">
+        {%if office.image %}
+        <img src="{{ office.image }}" alt="{{ office.name }}">
+        {% endif %}
+
+        <h3>
+          {{ office.name }}
+
+          <small>{{ office.group.name }} - {{office.country_code}}</small>
+        </h3>
+
+        {{ office.description|raw }}
+
+
+        <h4>Contacts</h4>
+
+        <dl>
+          <dt>Address</dt>
+          <dd>{{ office.address }}</dd>
+
+          {% for contact in office.contacts %}
+          <dt>{{ contact.label }}</dt>
+          <dd>{{ contact.value }}</dd>
+          {% endfor %}
+        </dl>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+

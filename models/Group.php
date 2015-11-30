@@ -9,6 +9,7 @@ use Model;
 class Group extends Model
 {
   use \October\Rain\Database\Traits\Sluggable;
+  use \October\Rain\Database\Traits\Sortable;
 
     /**
      * @var string The database table used by the model.
@@ -29,11 +30,14 @@ class Group extends Model
      * @var array Relations
      */
     public $hasOne = [];
-    public $hasMany = [];
-    public $belongsTo = [];
-    public $belongsToMany = [
-      'office' => 'GreenImp\Offices\Models\Office'
+    public $hasMany = [
+      'office' => [
+        'GreenImp\Offices\Models\Office',
+        'scope' => 'isActive'
+      ]
     ];
+    public $belongsTo = [];
+    public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
     public $morphMany = [];

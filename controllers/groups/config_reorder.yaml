@@ -1,0 +1,18 @@
+# ===================================
+#  Reorder Behavior Config
+# ===================================
+
+# Reorder Title
+title: Reorder Groups
+
+# Attribute name
+nameFrom: name
+
+# Model Class name
+modelClass: GreenImp\Offices\Models\Group
+
+# Toolbar widget configuration
+#toolbar:
+    # Partial for toolbar buttons
+#    buttons: reorder_toolbar
+

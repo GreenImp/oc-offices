@@ -1,0 +1,13 @@
+<div class="group-list">
+  <h2>Groups</h2>
+
+  <ul class="list-group">
+    {% for group in __SELF__.groups %}
+      <li class="list-group-item">
+        <a href="{{ __SELF__.groupPage|page({group_id: group.url_slug}) }}">
+          {{ group.name }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
