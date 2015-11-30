@@ -3,14 +3,10 @@
 # ===================================
 
 columns:
-    id:
-        label: ID
+    type:
+        label: Type
+        type: text
         searchable: true
-    office_id:
-      label: Office
-      relation: office
-      select: name
-      searchable: true
     label:
         label: Label
         type: text

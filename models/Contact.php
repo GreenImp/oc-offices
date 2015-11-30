@@ -42,4 +42,19 @@ class Contact extends Model
   public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
 
   public $translatable  = ['label'];
+
+  /**
+   * Returns a list of available contact types
+   *
+   * @var string $keyValue
+   * @return array
+   */
+  public function getTypeOptions($keyValue = null){
+    return [
+      'tel'   => 'Telephone',
+      'fax'   => 'Fax',
+      'email' => 'Email',
+      'other' => 'Other'
+    ];
+  }
 }

@@ -1,0 +1,17 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+contact:
+  label: Contacts
+  emptyMessage: No contacts
+  deferredBinding: true
+  view:
+    list: $/greenimp/offices/models/contact/columns.yaml
+    form: $/greenimp/offices/models/contact/fields.yaml
+    toolbarButtons: create|delete
+  manage:
+    list: $/greenimp/offices/models/contact/columns.yaml
+    form: $/greenimp/offices/models/contact/fields.yaml
+    recordsPerPage: 10
+

@@ -9,7 +9,7 @@ fields:
       hidden: true
     type:
       label: Type
-      type: text
+      type: dropdown
       required: true
     label:
       label: Label

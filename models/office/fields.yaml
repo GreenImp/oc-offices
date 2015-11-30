@@ -44,8 +44,7 @@ tabs:
 
     contact:
       label: Contacts
-      type: repeater
-      form: $/greenimp/offices/models/contact/fields.yaml
-      prompt: Add new contact
+      type: partial
+      path: $/greenimp/offices/models/office/_contact_field.htm
       tab: Contacts
 
