@@ -11,6 +11,16 @@ fields:
       label: Name
       type: text
       required: true
+      span: left
+    url_slug:
+      label: URL slug
+      type: text
+      required: true
+      span: right
+      attributes:
+        data-input-preset: 'input[name="Group[name]"]'
+        data-input-preset-type: slug
+        data-input-preset-closest-parent: form
     active:
       label: Active
       type: switch
