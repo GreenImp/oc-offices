@@ -14,6 +14,7 @@ class CreateOfficeGroupsTable extends Migration
           $table->increments('id');
           $table->string('name');
           $table->string('url_slug', 255);
+          $table->longText('description')->nullable();
           $table->integer('sort_order')->unsigned()->nullable();
           $table->boolean('active')->default(false);
           $table->timestamps();
@@ -22,7 +23,7 @@ class CreateOfficeGroupsTable extends Migration
            * Indexes
            */
           $table->unique('url_slug');
-          $table->index('order');
+          $table->index('sort_order');
           $table->index('active');
         });
     }

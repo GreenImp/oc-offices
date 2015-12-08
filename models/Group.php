@@ -46,7 +46,7 @@ class Group extends Model
 
   public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
 
-  public $translatable  = ['name'];
+  public $translatable  = ['name', 'description'];
 
   protected $slugs = ['url_slug' => 'name'];
 

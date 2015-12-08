@@ -15,4 +15,7 @@ fields:
       label: Active
       type: switch
       required: true
+    description:
+      label: Description
+      type: richeditor
 
