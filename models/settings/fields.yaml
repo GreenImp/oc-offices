@@ -1,0 +1,16 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    groupPage:
+      label: Group page
+      type: dropdown
+      required: true
+      default: office-group
+      comment: The page that displays the office group information (It contain the 'groupPage' component and the URI must have a `group_id` property - /path/to/groups/:group_id)
+    mapToken:
+      label: Mapbox access token
+      type: text
+      default: pk.eyJ1IjoiZ3JlZW5pbXAiLCJhIjoiY2lobms3NjA2MDBocHY0a3F4cWw2eGZyMiJ9.yJWMqYT_z2Wvfy23bqTzgA
+
