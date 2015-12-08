@@ -46,12 +46,15 @@ class Office extends Model
     public $attachOne = [];
     public $attachMany = [];
 
-  public $implement = ['RainLab.Translate.Behaviors.TranslatableModel'];
+  public $implement = [
+    'RainLab.Translate.Behaviors.TranslatableModel',
+    'RainLab.Location.Behaviors.LocationModel'
+  ];
 
   public $translatable  = ['name', 'description'];
 
   public $rules = [
-    'country_code'  => 'required|string|size:2',
+    'country_id'  => 'required|integer|exists:rainlab_location_countries,id',
     'name'          => 'required|string|min:1',
     'image'         => 'string|min:1|max:2000',
     'description'   => 'string|min:1',

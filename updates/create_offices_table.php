@@ -12,7 +12,7 @@ class CreateOfficesTable extends Migration
         {
           $table->engine = 'InnoDB';
           $table->increments('id');
-          $table->string('country_code', 2);
+          $table->integer('country_id')->unsigned();
           $table->string('name');
           $table->string('image', 2000)->nullable();
           $table->longText('description')->nullable();
@@ -25,6 +25,7 @@ class CreateOfficesTable extends Migration
            * Indexes
            */
           $table->index('active');
+          $table->index('country_id');
 
           /**
            * Foreign keys

@@ -32,10 +32,11 @@ tabs:
       label: Description
       type: richeditor
 
-    country_code:
+    country:
       label: Country
-      type: text
+      type: dropdown
       required: true
+      placeholder: -- select --
       tab: Location
     address:
       label: Address
