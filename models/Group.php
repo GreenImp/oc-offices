@@ -10,6 +10,7 @@ class Group extends Model
 {
   use \October\Rain\Database\Traits\Sluggable;
   use \October\Rain\Database\Traits\Sortable;
+  use \October\Rain\Database\Traits\Validation;
 
     /**
      * @var string The database table used by the model.
@@ -49,6 +50,14 @@ class Group extends Model
   public $translatable  = ['name', 'description'];
 
   protected $slugs = ['url_slug' => 'name'];
+
+  public $rules = [
+    'name'        => 'required|string|min:1',
+    'url_slug'    => 'required|string|min:1',
+    'description' => 'string|min:1',
+    'sort_order'  => 'integer',
+    'active'      => 'required|boolean'
+  ];
 
   public function scopeIsActive($query){
     return $query->where('active', true);
