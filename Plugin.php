@@ -8,20 +8,24 @@ use System\Classes\PluginBase;
  */
 class Plugin extends PluginBase
 {
-    /**
-     * Returns information about this plugin.
-     *
-     * @return array
-     */
-    public function pluginDetails()
-    {
-        return [
-            'name'        => 'greenimp.offices::lang.app.name',
-            'description' => 'No description provided yet...',
-            'author'      => 'GreenImp',
-            'icon'        => 'icon-building'
-        ];
-    }
+  /**
+   * @var array Plugin dependencies
+   */
+  public $require = ['RainLab.Location'];
+
+  /**
+   * Returns information about this plugin.
+   *
+   * @return array
+   */
+  public function pluginDetails(){
+    return [
+      'name'        => 'greenimp.offices::lang.app.name',
+      'description' => 'No description provided yet...',
+      'author'      => 'GreenImp',
+      'icon'        => 'icon-building'
+    ];
+  }
 
   public function registerComponents(){
     return [
