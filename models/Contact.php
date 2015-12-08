@@ -3,7 +3,7 @@
 use Model;
 
 /**
- * Group Model
+ * Contact Model
  * @link https://octobercms.com/docs/database/model
  */
 class Contact extends Model

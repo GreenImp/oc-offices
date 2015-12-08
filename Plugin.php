@@ -27,7 +27,8 @@ class Plugin extends PluginBase
     return [
       'GreenImp\Offices\Components\OfficeList'  => 'officeList',
       'GreenImp\Offices\Components\GroupList'   => 'groupList',
-      'GreenImp\Offices\Components\GroupPage'   => 'groupPage'
+      'GreenImp\Offices\Components\GroupPage'   => 'groupPage',
+      'GreenImp\Offices\Components\OfficeMap'   => 'officeMap'
     ];
   }
 
@@ -70,6 +71,17 @@ class Plugin extends PluginBase
             'order'       => 500
           ]
         ]
+      ]
+    ];
+  }
+
+  public function registerSettings(){
+    return [
+      'settings'  => [
+        'label'       => 'Offices',
+        'description' => 'Manage office settings.',
+        'icon'        => 'icon-building',
+        'class'       => 'GreenImp\Offices\Models\Settings'
       ]
     ];
   }

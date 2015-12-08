@@ -1,5 +1,7 @@
 <div class="group-list">
+  {% if __SELF__.includeHeading %}
   <h2>Groups</h2>
+  {% endif %}
 
   <ul class="list-group">
     {% for group in __SELF__.groups %}

@@ -1,11 +1,13 @@
 <?php namespace GreenImp\Offices\Components;
 
 use Cms\Classes\ComponentBase;
-use Cms\Classes\Page;
 use GreenImp\Offices\Models\Group;
 
 class GroupList extends ComponentBase
 {
+  public $groupPage       = '';
+  public $includeHeading  = false;
+
   public function componentDetails()
   {
     return [
@@ -17,12 +19,12 @@ class GroupList extends ComponentBase
     public function defineProperties()
     {
         return [
-          'groupPage' => [
-            'title'             => 'Group page',
-            'type'              => 'dropdown',
-            'default'           => $this->groupPage()
+          'includeHeading'  => [
+            'title'             => 'Include heading',
+            'type'              => 'checkbox',
+            'default'           => true
           ],
-          'maxItems'  => [
+          'maxItems'        => [
             'title'             => 'Max items',
             'description'       => 'The most amount of groups to show',
             'default'           => '',
@@ -34,15 +36,12 @@ class GroupList extends ComponentBase
         ];
     }
 
-  public function getGroupPageOptions(){
-    return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
-  }
-
   public function onRun(){
-  }
+    $settings   = \GreenImp\Offices\Models\Settings::instance();
 
-  public function groupPage(){
-    return $this->property('groupPage', 'office-group');
+    $this->groupPage  = $settings->groupPage;
+
+    $this->includeHeading = $this->property('includeHeading', true);
   }
 
   public function groups(){
