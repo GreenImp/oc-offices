@@ -32,15 +32,60 @@ tabs:
       label: Description
       type: richeditor
 
+    address:
+      label: Building name/street
+      type: textarea
+      size: tiny
+      required: true
+      tab: Location
+
+    city:
+      label: City
+      type: text
+      span: left
+      tab: Location
+    zip:
+      label: Zip
+      type: text
+      span: right
+      tab: Location
+
     country:
       label: Country
       type: dropdown
       required: true
       placeholder: -- select --
+      span: left
       tab: Location
-    address:
-      label: Address
-      type: textarea
+    state:
+      label: State
+      type: dropdown
+      dependsOn: country
+      placeholder: -- select --
+      span: right
+      tab: Location
+
+    geo_location_section:
+      label: Geo Location
+      type: section
+      tab: Location
+    location:
+      label: Location
+      type: addressfinder
+      comment: Enter your City or Zip/Postcode
+      tab: Location
+      fieldMap:
+        latitude: latitude
+        longitude: longitude
+    latitude:
+      label: Latitude
+      type: text
+      span: left
+      tab: Location
+    longitude:
+      label: Longitude
+      type: text
+      span: right
       tab: Location
 
     contact:

@@ -16,7 +16,13 @@ class CreateOfficesTable extends Migration
           $table->string('name');
           $table->string('image', 2000)->nullable();
           $table->longText('description')->nullable();
+          $table->string('location')->nullable();
           $table->longText('address')->nullable();
+          $table->string('city')->nullable();
+          $table->string('zip')->nullable();
+          $table->string('state_id')->unsigned()->nullable();
+          $table->decimal('latitude', 10, 8);
+          $table->decimal('longitude', 10, 8);
           $table->integer('group_id')->unsigned();
           $table->boolean('active')->default(false);
           $table->timestamps();
@@ -25,7 +31,7 @@ class CreateOfficesTable extends Migration
            * Indexes
            */
           $table->index('active');
-          $table->index('country_id');
+          $table->index('country_code');
 
           /**
            * Foreign keys

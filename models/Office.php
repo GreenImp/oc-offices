@@ -54,13 +54,19 @@ class Office extends Model
   public $translatable  = ['name', 'description'];
 
   public $rules = [
-    'country_id'  => 'required|integer|exists:rainlab_location_countries,id',
     'name'          => 'required|string|min:1',
     'image'         => 'string|min:1|max:2000',
     'description'   => 'string|min:1',
-    'address'       => 'string|min:1',
     'group_id'      => 'required|integer|exists:greenimp_offices_groups,id',
-    'active'        => 'required|boolean'
+    'active'        => 'required|boolean',
+
+    'address'       => 'string|min:1',
+    'city'          => 'string',
+    'zip'           => 'string',
+    'country_id'    => 'required|string|exists:rainlab_location_countries,id',
+    'state_id'      => 'string|exists:rainlab_location_states,id',
+    'latitude'      => 'required|string|min:1',
+    'longitude'     => 'required|string|min:1'
   ];
 
   public function scopeIsActive($query){
