@@ -88,7 +88,7 @@ tabs:
       span: right
       tab: Location
 
-    contact:
+    contacts:
       label: Contacts
       type: partial
       path: $/greenimp/offices/models/office/_contact_field.htm

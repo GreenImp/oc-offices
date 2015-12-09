@@ -31,7 +31,7 @@ class Office extends Model
     public $hasOne = [
     ];
     public $hasMany = [
-      'contact' => 'GreenImp\Offices\Models\Contact'
+      'contacts' => 'GreenImp\Offices\Models\Contact'
     ];
     public $belongsTo = [
       'group' => [

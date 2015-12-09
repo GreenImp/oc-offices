@@ -2,7 +2,7 @@
 #  Relation Behavior Config
 # ===================================
 
-contact:
+contacts:
   label: Contacts
   emptyMessage: No contacts
   deferredBinding: true
