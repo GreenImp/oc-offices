@@ -1,5 +1,6 @@
 <?php namespace GreenImp\Offices;
 
+use Event;
 use Backend\Facades\Backend;
 use System\Classes\PluginBase;
 
@@ -88,5 +89,26 @@ class Plugin extends PluginBase
         'class'       => 'GreenImp\Offices\Models\Settings'
       ]
     ];
+  }
+
+  public function boot(){
+    Event::listen('pages.menuitem.listTypes', function(){
+      return [
+        'offices-group'      => 'Office Group',
+        'offices-all-groups' => 'All office groups'
+      ];
+    });
+
+    Event::listen('pages.menuitem.getTypeInfo', function($type){
+      if(($type == 'offices-group') || ($type == 'offices-all-groups')){
+        return \GreenImp\Offices\Classes\Groups::getMenuTypeInfo($type);
+      }
+    });
+
+    Event::listen('pages.menuitem.resolveItem', function($type, $item, $url, $theme){
+      if(($type == 'offices-group') || ($type == 'offices-all-groups')){
+        return \GreenImp\Offices\Classes\Groups::resolveMenuItem($item, $url, $theme);
+      }
+    });
   }
 }
