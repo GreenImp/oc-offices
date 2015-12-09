@@ -25,11 +25,11 @@
             {{ office.address }}
 
             {% if office.city %}
-              <br>{{ office.city }}
+            <br>{{ office.city }}
             {% endif %}
 
             {% if office.state %}
-              <br>{{ office.state.name }}
+            <br>{{ office.state.name }}
             {% endif %}
 
             {% if office.zip %}
@@ -37,13 +37,19 @@
             {% endif %}
 
             {% if office.country %}
-              <br>{{ office.country.name }}
+            <br>{{ office.country.name }}
             {% endif %}
           </dd>
 
           {% for contact in office.contacts %}
-          <dt>{{ contact.label }}</dt>
-          <dd>{{ contact.value }}</dd>
+          <dt>{{ contact.label|default(contact.type) }}</dt>
+          <dd>
+            {% if contact.type == 'email' %}
+              {{ html_email(contact.value) }}
+            {%  else %}
+              {{ contact.value }}
+            {% endif %}
+          </dd>
           {% endfor %}
         </dl>
       </li>

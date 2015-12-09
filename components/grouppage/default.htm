@@ -47,7 +47,13 @@
 
           {% for contact in office.contacts %}
           <dt>{{ contact.label|default(contact.type) }}</dt>
-          <dd>{{ contact.value }}</dd>
+          <dd>
+            {% if contact.type == 'email' %}
+              {{ html_email(contact.value) }}
+            {%  else %}
+              {{ contact.value }}
+            {% endif %}
+          </dd>
           {% endfor %}
         </dl>
       </li>
