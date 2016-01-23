@@ -32,7 +32,7 @@ class Group extends Model
      */
     public $hasOne = [];
     public $hasMany = [
-      'office' => [
+      'offices' => [
         'GreenImp\Offices\Models\Office',
         'scope' => 'isActive'
       ]

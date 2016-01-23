@@ -20,7 +20,7 @@ class CreateOfficesTable extends Migration
           $table->longText('address')->nullable();
           $table->string('city')->nullable();
           $table->string('zip')->nullable();
-          $table->string('state_id')->unsigned()->nullable();
+          $table->integer('state_id')->unsigned()->nullable();
           $table->decimal('latitude', 10, 8);
           $table->decimal('longitude', 10, 8);
           $table->integer('group_id')->unsigned();
@@ -31,7 +31,7 @@ class CreateOfficesTable extends Migration
            * Indexes
            */
           $table->index('active');
-          $table->index('country_code');
+          $table->index('country_id');
 
           /**
            * Foreign keys

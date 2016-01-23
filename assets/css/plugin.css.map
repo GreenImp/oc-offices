@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "plugin.css",
+	"sources": [
+		"../../resources/assets/scss/plugin.scss"
+	],
+	"mappings": "CAAA,AAAA,QAAC,AAAA,CAAS,CACR,KAAK,CAAE,IAAK,CACZ,UAAU,CAAE,KAAM,CACnB",
+	"names": []
+}
