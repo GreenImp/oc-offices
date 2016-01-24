@@ -18,12 +18,23 @@ class Office extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = ['id', 'url_slug'];
 
     /**
      * @var array Fillable fields
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'address',
+        'image',
+        'location',
+        'country_id',
+        'latitude',
+        'longitude',
+        'active',
+        'group_id',
+        'description'
+    ];
 
     /**
      * @var array Relations
@@ -53,6 +64,8 @@ class Office extends Model
 
   public $translatable  = ['name', 'description'];
 
+  protected $slugs = ['url_slug' => 'name'];
+
   public $rules = [
     'name'          => 'required|string|min:1',
     'image'         => 'string|min:1|max:2000',
@@ -71,5 +84,15 @@ class Office extends Model
 
   public function scopeIsActive($query){
     return $query->where('active', true);
+  }
+
+  /**
+   *
+   *
+   * @param Group $group
+   * @return string
+   */
+  public function url($group = null){
+    return \GreenImp\Offices\Classes\Groups::getOfficeURL($this, $group);
   }
 }

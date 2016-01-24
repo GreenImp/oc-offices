@@ -14,6 +14,7 @@ class CreateOfficesTable extends Migration
           $table->increments('id');
           $table->integer('country_id')->unsigned();
           $table->string('name');
+          $table->string('url_slug', 255);
           $table->string('image', 2000)->nullable();
           $table->longText('description')->nullable();
           $table->string('location')->nullable();

@@ -6,14 +6,14 @@ columns:
   id:
     label: ID
     searchable: true
+  name:
+    label: Name
+    type: text
+    searchable: true
   country:
     label: Country
     relation: country
     select: name
-    searchable: true
-  name:
-    label: Name
-    type: text
     searchable: true
   group_id:
     label: Group

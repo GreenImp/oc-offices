@@ -20,7 +20,7 @@ class Group extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = ['id', 'url_slug'];
 
     /**
      * @var array Fillable fields
@@ -53,7 +53,7 @@ class Group extends Model
 
   public $rules = [
     'name'        => 'required|string|min:1',
-    'url_slug'    => 'required|string|min:1',
+    //'url_slug'    => 'required|string|min:1',
     'description' => 'string|min:1',
     'sort_order'  => 'integer',
     'active'      => 'required|boolean'
