@@ -4,6 +4,7 @@ use URL;
 use Cms\Classes\Page;
 use Cms\Classes\Theme;
 use GreenImp\Offices\Models\Group;
+use GreenImp\Offices\Models\Office;
 
 /**
  * Represents groups
@@ -16,8 +17,41 @@ class Groups{
     return $settings->groupPage;
   }
 
+  public static function getOfficePage(){
+    $settings   = \GreenImp\Offices\Models\Settings::instance();
+    return $settings->officePage;
+  }
+
+  /**
+   * Returns the URL for the given group
+   *
+   * @param Group $group
+   * @return string
+   */
   public static function getGroupPageURL(Group $group){
-    return Page::url(self::getGroupPage(), ['group_id' => $group->url_slug]);
+    return Page::url(
+      self::getGroupPage(),
+      [
+        'group_id'  => $group->url_slug
+      ]
+    );
+  }
+
+  /**
+   * Returns the URL for the given office
+   *
+   * @param Office     $office
+   * @param Group|null $group
+   * @return string
+   */
+  public static function getOfficeURL(Office $office, Group $group = null){
+    return Page::url(
+      self::getOfficePage(),
+      [
+        'group_id'  => !is_null($group) ? $group->url_slug : null,
+        'office_id' => $office->url_slug
+      ]
+    );
   }
 
   /**
