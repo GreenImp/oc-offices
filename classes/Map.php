@@ -25,19 +25,21 @@ class Map{
     $offices = $group->offices;
 
     $data = [];
-    $offices->each(function($item) use(&$data){
+    $offices->each(function($item) use(&$data, $group){
       $data[] = [
         'type'        => 'Feature',
         'geometry'    => [
           'type'        => 'Point',
           'coordinates' => [
-            $item->longitude,
-            $item->latitude
+            floatval($item->longitude),
+            floatval($item->latitude)
           ]
         ],
         'properties'  => [
-          'title' => $item->name,
-          'marker-symbol' => 'harbor'
+          //'title' => $item->name,
+          'marker-symbol' => 'circle',
+          'description'   => '<div class="marker-title">' . $item->name . '</div><p>Click to view</p>',
+          'url'           => $item->url($group)
         ]
       ];
     });

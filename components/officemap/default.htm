@@ -1,2 +1,19 @@
-<div data-map data-map-data-url="{{ __SELF__.mapDataURL }}"></div>
+<div class="map-container">
+  {% if __SELF__.group.offices.count > 0 %}
+  <div class="column medium-4 large-3 map-overlay right">
+    <h2>{{ 'Select Office'|_ }}</h2>
 
+    <p>Use the dropdown or click on the map to find your closest representative.</p>
+
+    <select>
+      <option value="">-- select --</option>
+
+      {% for office in __SELF__.group.offices %}
+        <option value="{{ office.id }}">{{ office.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  {% endif %}
+
+  <div data-map data-map-data-url="{{ __SELF__.mapDataURL }}"></div>
+</div>
