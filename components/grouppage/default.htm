@@ -1,9 +1,9 @@
-<h2>{{ __SELF__.group.name }}</h2>
+<h1>{{ __SELF__.group.name }}</h1>
 
 {{ __SELF__.group.description|raw }}
 
 <div class="office-list">
-  <h3>{{ 'Offices'|_ }}</h3>
+  <h2>{{ 'Offices'|_ }}</h2>
 
   <ul class="list-group">
     {% for office in __SELF__.group.office %}
