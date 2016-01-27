@@ -2,10 +2,12 @@
 
 use Cms\Classes\ComponentBase;
 use GreenImp\Offices\Models\Group;
+use GreenImp\Offices\Models\Office;
 
 class OfficeMap extends ComponentBase
 {
   public $group;
+  public $office;
 
   public function componentDetails()
   {
@@ -32,6 +34,18 @@ class OfficeMap extends ComponentBase
     }
 
 
+    $officeID = $this->param('office_id');
+
+    $query  = Office::isActive();
+
+    if(!is_numeric($officeID) || ($officeID < 1)){
+      $this->office  = $query->where('url_slug', $officeID)->firstOrFail();
+    }else{
+      $this->office  = $query->find($officeID);
+    }
+
+
+
     // add the mapbox CSS/JS
     //$this->addCss('https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css');
     //$this->addJs('https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js');
@@ -44,6 +58,9 @@ class OfficeMap extends ComponentBase
   }
 
   public function mapDataURL(){
-    return \Url::route('greenimp::offices::map::group::offices', ['id' => $this->group->id]);
+    return \Url::route('greenimp::offices::map::group::offices' . (!is_null($this->office) ? '::office' : ''), [
+      'group_id'  => $this->group->id,
+      'office_id' => !is_null($this->office) ? $this->office->id : null
+    ]);
   }
 }

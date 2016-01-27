@@ -31,8 +31,6 @@
 
 
     this.init = function(){
-      //var map = new lib.map('pk.eyJ1IjoiZ3JlZW5pbXAiLCJhIjoiY2lobms3NjA2MDBocHY0a3F4cWw2eGZyMiJ9.yJWMqYT_z2Wvfy23bqTzgA');
-
       mapboxgl.accessToken = 'pk.eyJ1IjoiZ3JlZW5pbXAiLCJhIjoiY2lobms3NjA2MDBocHY0a3F4cWw2eGZyMiJ9.yJWMqYT_z2Wvfy23bqTzgA';
 
       if(!mapboxgl.supported()){
@@ -103,7 +101,8 @@
 
 
             // get the marker bounds
-            var bounds = [];
+            var bounds    = [],
+                featuredPoint;
 
             $.each(data.data.features, function(i, feature){
               var geometry  = feature.geometry;
@@ -121,11 +120,22 @@
                 // calculate the min bounds
                 bounds[1][0] = bounds[1][0] ? Math.max(bounds[1][0], geometry.coordinates[0] + .5) : geometry.coordinates[0] + .5;
                 bounds[1][1] = bounds[1][1] ? Math.max(bounds[1][1], geometry.coordinates[1] + .5) : geometry.coordinates[1] + .5;
+
+
+                // check if this is a featured marker
+                if(feature.properties.featured){
+                  featuredPoint = [geometry.coordinates[0], geometry.coordinates[1]];
+                }
               }
             });
 
             // fit the map to the markers
             map.fitBounds(bounds);
+
+            if(featuredPoint){
+              // pan to the featured marker
+              map.panTo(featuredPoint);
+            }
           });
         });
 

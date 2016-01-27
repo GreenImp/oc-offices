@@ -11,7 +11,12 @@ use GreenImp\Offices\Models\Group;
  * @package greenimp\map
  */
 class Map{
-  public static function getGroupOfficesGeoJSON($groupID){
+  /**
+   * @param number $groupID
+   * @param number $officeID
+   * @return array|null
+   */
+  public static function getGroupOfficesGeoJSON($groupID, $officeID = null){
     // get the group
     $group = Group::isActive()->find($groupID);
 
@@ -25,7 +30,9 @@ class Map{
     $offices = $group->offices;
 
     $data = [];
-    $offices->each(function($item) use(&$data, $group){
+    $offices->each(function($item) use(&$data, $group, $officeID){
+      $isFeatured = (is_numeric($officeID) && ($officeID == $item->id));
+
       $data[] = [
         'type'        => 'Feature',
         'geometry'    => [
@@ -37,9 +44,10 @@ class Map{
         ],
         'properties'  => [
           //'title' => $item->name,
-          'marker-symbol' => 'circle',
+          'marker-symbol' => $isFeatured ? 'star' : 'circle',
           'description'   => '<div class="marker-title">' . $item->name . '</div><p>Click to view</p>',
-          'url'           => $item->url($group)
+          'url'           => $item->url($group),
+          'featured'      => $isFeatured
         ]
       ];
     });
