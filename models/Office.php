@@ -8,6 +8,7 @@ use Model;
  */
 class Office extends Model
 {
+  use \October\Rain\Database\Traits\Sluggable;
   use \October\Rain\Database\Traits\Validation;
 
     /**

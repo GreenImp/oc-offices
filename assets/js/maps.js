@@ -169,10 +169,11 @@
         /**
          * Show the marker information when clicking it
          */
-        map.on('click', function (e) {
-          map.featuresAt(e.point, {layer: 'markers', radius: 10, includeGeometry: true}, function (err, features) {
-            if (err || !features.length)
+        map.on('click', function(e){
+          map.featuresAt(e.point, {layer: 'markers', radius: 10, includeGeometry: true}, function(err, features){
+            if(err || !features.length) {
               return;
+            }
 
             var feature = features[0];
 
