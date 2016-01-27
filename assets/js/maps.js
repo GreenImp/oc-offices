@@ -93,7 +93,8 @@
                 "text-field":   "{label}",
                 "text-font":    ["Open Sans Semibold", "Arial Unicode MS Bold"],
                 "text-offset":  [0, 0.6],
-                "text-anchor":  "top"
+                "text-anchor":  "top",
+                'icon-allow-overlap': true
               },
               "paint":        {
                 "text-size": 12
