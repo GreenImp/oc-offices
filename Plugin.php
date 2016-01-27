@@ -33,7 +33,8 @@ class Plugin extends PluginBase
       'GreenImp\Offices\Components\OfficeList'  => 'officeList',
       'GreenImp\Offices\Components\GroupList'   => 'groupList',
       'GreenImp\Offices\Components\GroupPage'   => 'groupPage',
-      'GreenImp\Offices\Components\OfficeMap'   => 'officeMap'
+      'GreenImp\Offices\Components\OfficeMap'   => 'officeMap',
+      'GreenImp\Offices\Components\OfficePage'   => 'officePage'
     ];
   }
 
