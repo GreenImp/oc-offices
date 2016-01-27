@@ -5,11 +5,11 @@
 
     <p>Use the dropdown or click on the map to find your closest representative.</p>
 
-    <select>
+    <select data-input-redirect>
       <option value="">-- select --</option>
 
       {% for office in __SELF__.group.offices %}
-        <option value="{{ office.id }}">{{ office.name }}</option>
+        <option value="{{ office.url(__SELF__.group) }}">{{ office.name }}</option>
       {% endfor %}
     </select>
   </div>
