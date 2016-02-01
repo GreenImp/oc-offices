@@ -39,7 +39,7 @@ class OfficeMap extends ComponentBase
     $query  = Office::isActive();
 
     if(!is_numeric($officeID) || ($officeID < 1)){
-      $this->office  = $query->where('url_slug', $officeID)->firstOrFail();
+      $this->office  = $query->where('url_slug', $officeID)->first();
     }else{
       $this->office  = $query->find($officeID);
     }

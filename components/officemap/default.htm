@@ -9,7 +9,7 @@
       <option value="">-- select --</option>
 
       {% for office in __SELF__.group.offices %}
-        <option value="{{ office.url(__SELF__.group) }}">{{ office.name }}</option>
+        <option value="{{ office.url(__SELF__.group) }}" {{ office.id == __SELF__.office.id ? ' selected' : '' }}>{{ office.name }}</option>
       {% endfor %}
     </select>
   </div>
