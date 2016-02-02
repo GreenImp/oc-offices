@@ -88,12 +88,11 @@ class Office extends Model
   }
 
   /**
+   * Returns the URL for the Office
    *
-   *
-   * @param Group $group
    * @return string
    */
-  public function url($group = null){
-    return \GreenImp\Offices\Classes\Groups::getOfficeURL($this, $group);
+  public function url(){
+    return \GreenImp\Offices\Classes\Groups::getOfficeURL($this, $this->group);
   }
 }

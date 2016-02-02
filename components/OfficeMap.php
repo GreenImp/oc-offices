@@ -47,9 +47,6 @@ class OfficeMap extends ComponentBase
 
 
     // add the mapbox CSS/JS
-    //$this->addCss('https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.css');
-    //$this->addJs('https://api.mapbox.com/mapbox.js/v2.2.4/mapbox.js');
-
     $this->addCss('https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.4/mapbox-gl.css');
     $this->addJs('https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.4/mapbox-gl.js');
 
@@ -60,7 +57,9 @@ class OfficeMap extends ComponentBase
   public function mapDataURL(){
     return \Url::route('greenimp::offices::map::group::offices' . (!is_null($this->office) ? '::office' : ''), [
       'group_id'  => $this->group->id,
-      'office_id' => !is_null($this->office) ? $this->office->id : null
+      'office_id' => !is_null($this->office) ? $this->office->id : null,
+      //'map_type'  => !is_null($this->group->map_type) ? $this->group->map_type : 'office'
+      'map_type'  => 'country'
     ]);
   }
 }

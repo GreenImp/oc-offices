@@ -62,4 +62,11 @@ class Group extends Model
   public function scopeIsActive($query){
     return $query->where('active', true);
   }
+
+  public function getMapTypeOptions(){
+    return [
+      'country' => 'Country',
+      'office'  => 'Single office'
+    ];
+  }
 }

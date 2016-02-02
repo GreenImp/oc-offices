@@ -28,4 +28,7 @@ fields:
     description:
       label: Description
       type: richeditor
+    map_type:
+      label: Map Display
+      type: dropdown
 

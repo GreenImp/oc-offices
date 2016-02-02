@@ -43,7 +43,8 @@
       // loop through each map container and initialise the map
       $('[data-' + lib.namespace + ']').each(function(i, elm){
         var $container  = $(this),
-            geoJSON     = $.Deferred();
+            geoJSON     = $.Deferred(),
+            countryFilter;
 
 
         // create the map
@@ -79,62 +80,109 @@
 
         map.on('style.load', function(){
           geoJSON.done(function(data){
-            map.addSource('markers', data);
+            if(data.data && (data.data.type == 'countryCollection')){
+              countryFilter = ['in', 'iso_a2'];
 
-            map.addLayer({
-              "id":           "markers",
-              "interactive":  true,
-              "type":         "symbol",
-              "source":       "markers",
-              "layout":       {
-                "icon-image":   "{marker-symbol}-18",
-                "text-field":   "{label}",
-                "text-font":    ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset":  [0, 0.6],
-                "text-anchor":  "top",
-                'icon-allow-overlap': true
-              },
-              "paint":        {
-                "text-size": 12
-              }
-            });
+              $.each(data.data.features, function(i, feature){
+                if(feature.properties && feature.properties.iso_a2){
+                  countryFilter.push(feature.properties.iso_a2);
+                }
+              });
+
+              map.addSource('countries', {
+                type: 'vector',
+                url: 'mapbox://greenimp.9apd3ehl'
+              });
+
+              map.addLayer({
+                'id': 'countries',
+                "interactive": true,
+                'type': 'fill',
+                'source': 'countries',
+                'source-layer': 'ne_110m_admin_0_countries',
+                'layout': {
+                  'line-join': 'round',
+                  'line-cap': 'round'
+                },
+                'paint': {
+                  'fill-color': '#72808B'
+                },
+                'filter': countryFilter
+              });
+
+              map.addLayer({
+                'id': 'countries-hover',
+                'type': 'fill',
+                'source': 'countries',
+                'source-layer': 'ne_110m_admin_0_countries',
+                'layout': {
+                  'line-join': 'round',
+                  'line-cap': 'round'
+                },
+                'paint': {
+                  'fill-color': '#FF6600'
+                },
+                'filter': ['==', 'iso_a2', '']
+              });
+            }else{
+              map.addSource('markers', data);
+
+              map.addLayer({
+                "id": "markers",
+                "interactive": true,
+                "type": "symbol",
+                "source": "markers",
+                "layout": {
+                  "icon-image": "{marker-symbol}-18",
+                  "text-field": "{label}",
+                  "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                  "text-offset": [0, 0.6],
+                  "text-anchor": "top",
+                  'icon-allow-overlap': true
+                },
+                "paint": {
+                  "text-size": 12
+                }
+              });
 
 
-            // get the marker bounds
-            var bounds    = [],
+              // TODO - get bounds of countries
+              // get the marker bounds
+              var bounds    = [],
                 featuredPoint;
 
-            $.each(data.data.features, function(i, feature){
-              var geometry  = feature.geometry;
+              $.each(data.data.features, function(i, feature){
+                var geometry  = feature.geometry;
 
-              if(geometry.type  == 'Point'){
-                // ensure min bound array exists
-                bounds[0] = bounds[0] || [];
-                // ensure max bound array exists
-                bounds[1] = bounds[1] || [];
+                if(geometry.type  == 'Point'){
+                  // ensure min bound array exists
+                  bounds[0] = bounds[0] || [];
+                  // ensure max bound array exists
+                  bounds[1] = bounds[1] || [];
 
-                // calculate the min bounds
-                bounds[0][0] = bounds[0][0] ? Math.min(bounds[0][0], geometry.coordinates[0] - .5) : geometry.coordinates[0] - .5;
-                bounds[0][1] = bounds[0][1] ? Math.min(bounds[0][1], geometry.coordinates[1] - .5) : geometry.coordinates[1] - .5;
+                  // calculate the min bounds
+                  bounds[0][0] = bounds[0][0] ? Math.min(bounds[0][0], geometry.coordinates[0] - .5) : geometry.coordinates[0] - .5;
+                  bounds[0][1] = bounds[0][1] ? Math.min(bounds[0][1], geometry.coordinates[1] - .5) : geometry.coordinates[1] - .5;
 
-                // calculate the min bounds
-                bounds[1][0] = bounds[1][0] ? Math.max(bounds[1][0], geometry.coordinates[0] + .5) : geometry.coordinates[0] + .5;
-                bounds[1][1] = bounds[1][1] ? Math.max(bounds[1][1], geometry.coordinates[1] + .5) : geometry.coordinates[1] + .5;
+                  // calculate the min bounds
+                  bounds[1][0] = bounds[1][0] ? Math.max(bounds[1][0], geometry.coordinates[0] + .5) : geometry.coordinates[0] + .5;
+                  bounds[1][1] = bounds[1][1] ? Math.max(bounds[1][1], geometry.coordinates[1] + .5) : geometry.coordinates[1] + .5;
 
 
-                // check if this is a featured marker
-                if(feature.properties.featured){
-                  featuredPoint = [geometry.coordinates[0], geometry.coordinates[1]];
+                  // check if this is a featured marker
+                  if(feature.properties.featured){
+                    featuredPoint = [geometry.coordinates[0], geometry.coordinates[1]];
+                  }
                 }
+              });
+
+              // fit the map to the markers
+              map.fitBounds(bounds);
+
+              if(featuredPoint){
+                // pan to the featured marker
+                map.panTo(featuredPoint);
               }
-            });
-
-            // fit the map to the markers
-            map.fitBounds(bounds);
-
-            if(featuredPoint){
-              // pan to the featured marker
-              map.panTo(featuredPoint);
             }
           });
         });
@@ -173,6 +221,21 @@
               popup.setLngLat(feature.geometry.coordinates)
                 .setHTML(feature.properties.description)
                 .addTo(map);
+            });
+
+
+          map.featuresAt(
+            e.point,
+            {
+              radius: 5,
+              layers: ['countries']
+            },
+            function(err, features){
+              if(!err && features.length){
+                map.setFilter('countries-hover', ['all', countryFilter, ['==', 'iso_a2', features[0].properties.iso_a2]]);
+              }else{
+                map.setFilter('countries-hover', ['==', 'iso_a2', '']);
+              }
             });
         });
 

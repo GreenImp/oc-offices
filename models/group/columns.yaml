@@ -10,6 +10,10 @@ columns:
         label: Name
         type: text
         searchable: true
+    map_type:
+        label: Map Display
+        type: text
+        searchable: true
     active:
       label: Active
       type: switch

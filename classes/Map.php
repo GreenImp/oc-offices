@@ -3,6 +3,7 @@
 use URL;
 use Cms\Classes\Page;
 use Cms\Classes\Theme;
+use RainLab\Location\Models\Country;
 use GreenImp\Offices\Models\Group;
 
 /**
@@ -11,26 +12,33 @@ use GreenImp\Offices\Models\Group;
  * @package greenimp\map
  */
 class Map{
+  protected static function buildGeoJSON($data, $type = 'FeatureCollection'){
+    return [
+      'type'  => 'geojson',
+      'data'  => [
+        'type'      => $type,
+        'features'  => $data
+      ]
+    ];
+  }
+
   /**
+   * Returns the office GeoJSON
+   *
    * @param number $groupID
    * @param number $officeID
    * @return array|null
    */
-  public static function getGroupOfficesGeoJSON($groupID, $officeID = null){
-    // get the group
-    $group = Group::isActive()->find($groupID);
-
-    // if the group doesn't exist throw a 404
-    if(is_null($group)){
-      return null;
+  public static function getOfficesGeoJSON($groupID = null, $officeID = null){
+    if(is_numeric($groupID)){
+      // group defined - get the group and its offices
+      $offices = Group::isActive()->findOrFail($groupID)->offices;
+    }else{
+      $offices = Office::isActive()->get();
     }
 
-
-    // get the group's offices
-    $offices = $group->offices;
-
     $data = [];
-    $offices->each(function($item) use(&$data, $group, $officeID){
+    $offices->each(function($item) use(&$data, $officeID){
       $isFeatured = (is_numeric($officeID) && ($officeID == $item->id));
 
       $data[] = [
@@ -46,19 +54,69 @@ class Map{
           //'title' => $item->name,
           'marker-symbol' => $isFeatured ? 'star' : 'circle',
           'description'   => '<div class="marker-title">' . $item->name . '</div><p>Click to view</p>',
-          'url'           => $item->url($group),
+          'url'           => $item->url(),
           'featured'      => $isFeatured
         ]
       ];
     });
 
-    // return the data
-    return [
-      'type'  => 'geojson',
-      'data'  => [
-        'type'      => 'FeatureCollection',
-        'features'  => $data
-      ]
-    ];
+    // build and return the data
+    return self::buildGeoJSON($data);
+  }
+
+  /**
+   * Returns the country GeoJSON
+   *
+   * @param null $groupID
+   * @param null $officeID
+   * @return array|null
+   */
+  public static function getCountryGeoJSON($groupID = null, $officeID = null){
+    if(is_numeric($groupID)){
+      // group defined - get the group and its offices
+      $offices = Group::isActive()->findOrFail($groupID)->offices();
+    }else{
+      // no group - get all offices
+      $offices = Office::isActive();
+    }
+
+
+    // get a list of country IDs for the offices
+    $countryIDs = $offices->groupBy('country_id')->lists('country_id');
+
+    $countries = Country::whereIn('id', $countryIDs)->get();
+
+    // loop through the countries and build up their data
+    $data = [];
+    foreach($countries as $country){
+      $isFeatured = false;
+
+      $data[] = [
+        'properties'  => [
+          'iso_a2'        => $country->code,
+          'description'   => '<div class="marker-title">' . $country->name . '</div><p>Click to view</p>',
+          'url'           => '#',
+          'featured'      => $isFeatured
+        ]
+      ];
+    }
+
+
+    // build and return the data
+    return self::buildGeoJSON($data, 'countryCollection');
+  }
+
+  public static function getGeoJSON($mapType, $groupID = null, $officeID = null){
+    switch($mapType){
+      case 'office':
+        return self::getOfficesGeoJSON($groupID, $officeID);
+        break;
+      case 'country':
+        return self::getCountryGeoJSON($groupID, $officeID);
+        break;
+      default:
+        return null;
+        break;
+    }
   }
 }
