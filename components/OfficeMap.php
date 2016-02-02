@@ -58,8 +58,7 @@ class OfficeMap extends ComponentBase
     return \Url::route('greenimp::offices::map::group::offices' . (!is_null($this->office) ? '::office' : ''), [
       'group_id'  => $this->group->id,
       'office_id' => !is_null($this->office) ? $this->office->id : null,
-      //'map_type'  => !is_null($this->group->map_type) ? $this->group->map_type : 'office'
-      'map_type'  => 'country'
+      'map_type'  => !is_null($this->group->map_type) ? $this->group->map_type : 'office'
     ]);
   }
 }
