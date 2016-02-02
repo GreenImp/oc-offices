@@ -112,7 +112,6 @@ class Map{
       ->lists('code');
 
     // loop through the countries and build up their data
-    $data = [];
     foreach($geoJSON->features as $k =>$feature){
       if(!in_array($feature->properties->iso_a2, $countryCodes)){
         // country doesn't have any office - remove it
@@ -120,13 +119,11 @@ class Map{
       }else{
         $isFeatured = false;
 
-        $data[] = [
-          'properties' => [
-            'description' => '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>',
-            'url'         => '#',
-            'featured'    => $isFeatured
-          ]
-        ];
+        $feature->properties->description = '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>';
+        $feature->properties->url = '#';
+        $feature->properties->featured = $isFeatured;
+
+        $geoJSON->features[$k] = $feature;
       }
     }
 
