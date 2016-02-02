@@ -1,6 +1,8 @@
 <?php namespace GreenImp\Offices\Classes;
 
 use URL;
+use File;
+use ApplicationException;
 use Cms\Classes\Page;
 use Cms\Classes\Theme;
 use RainLab\Location\Models\Country;
@@ -12,6 +14,17 @@ use GreenImp\Offices\Models\Group;
  * @package greenimp\map
  */
 class Map{
+  protected static function parseGeoJSONFile($filename){
+    $path = plugins_path() . '/greenimp/offices/assets/geojson/' . $filename;
+
+    if(!preg_match('/^[\w\d]+\.(geo)?json$/i', $filename) || !File::exists($path)){
+      throw new ApplicationException('Invalid File: ' . $path);
+    }
+
+    // load and parse the file to an object
+    return json_decode(File::get($path));
+  }
+
   protected static function buildGeoJSON($data, $type = 'FeatureCollection'){
     return [
       'type'  => 'geojson',
@@ -72,6 +85,17 @@ class Map{
    * @return array|null
    */
   public static function getCountryGeoJSON($groupID = null, $officeID = null){
+    // get the country geoJSON
+    $geoJSON = self::parseGeoJSONFile('countries.geojson');
+
+    // check that data was returned
+    if(is_null($geoJSON)){
+      return null;
+    }
+
+
+
+    // get the offices
     if(is_numeric($groupID)){
       // group defined - get the group and its offices
       $offices = Group::isActive()->findOrFail($groupID)->offices();
@@ -82,28 +106,36 @@ class Map{
 
 
     // get a list of country IDs for the offices
-    $countryIDs = $offices->groupBy('country_id')->lists('country_id');
-
-    $countries = Country::whereIn('id', $countryIDs)->get();
+    $countryCodes = Country
+      ::whereIn('id', $offices->groupBy('country_id')->lists('country_id'))
+      ->groupBy('id')
+      ->lists('code');
 
     // loop through the countries and build up their data
     $data = [];
-    foreach($countries as $country){
-      $isFeatured = false;
+    foreach($geoJSON->features as $k =>$feature){
+      if(!in_array($feature->properties->iso_a2, $countryCodes)){
+        // country doesn't have any office - remove it
+        unset($geoJSON->features[$k]);
+      }else{
+        $isFeatured = false;
 
-      $data[] = [
-        'properties'  => [
-          'iso_a2'        => $country->code,
-          'description'   => '<div class="marker-title">' . $country->name . '</div><p>Click to view</p>',
-          'url'           => '#',
-          'featured'      => $isFeatured
-        ]
-      ];
+        $data[] = [
+          'properties' => [
+            'description' => '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>',
+            'url'         => '#',
+            'featured'    => $isFeatured
+          ]
+        ];
+      }
     }
+
+    // re-index the features (mapbox expects GeoJSON arrays to be keyed in order without missing keys)
+    $geoJSON->features = array_values($geoJSON->features); // normalize index
 
 
     // build and return the data
-    return self::buildGeoJSON($data, 'countryCollection');
+    return self::buildGeoJSON($geoJSON->features);
   }
 
   public static function getGeoJSON($mapType, $groupID = null, $officeID = null){
