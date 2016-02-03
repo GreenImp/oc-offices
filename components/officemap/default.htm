@@ -8,8 +8,8 @@
     <select data-input-redirect>
       <option value="">-- select --</option>
 
-      {% for office in __SELF__.group.offices %}
-        <option value="{{ office.url(__SELF__.group) }}" {{ office.id == __SELF__.office.id ? ' selected' : '' }}>{{ office.name }}</option>
+      {% for item in __SELF__.dropdownItems %}
+        <option value="{{ item.url }}" {{item.isActive ? ' selected' : '' }}>{{ item.name }}</option>
       {% endfor %}
     </select>
   </div>

@@ -3,6 +3,7 @@
 use URL;
 use Cms\Classes\Page;
 use Cms\Classes\Theme;
+use RainLab\Location\Models\Country;
 use GreenImp\Offices\Models\Group;
 use GreenImp\Offices\Models\Office;
 
@@ -20,6 +21,11 @@ class Groups{
   public static function getOfficePage(){
     $settings   = \GreenImp\Offices\Models\Settings::instance();
     return $settings->officePage;
+  }
+
+  public static function getCountryPage(){
+    $settings   = \GreenImp\Offices\Models\Settings::instance();
+    return $settings->countryPage;
   }
 
   /**
@@ -50,6 +56,21 @@ class Groups{
       [
         'group_id'  => !is_null($group) ? $group->url_slug : null,
         'office_id' => $office->url_slug
+      ]
+    );
+  }
+
+  /**
+   * Returns the URL for the given country
+   *
+   * @param Country    $country
+   * @return string
+   */
+  public static function getCountryURL(Country $country){
+    return Page::url(
+      self::getCountryPage(),
+      [
+        'country_code'  => $country->code
       ]
     );
   }

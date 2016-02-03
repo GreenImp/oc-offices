@@ -1,6 +1,8 @@
 <?php namespace GreenImp\Offices\Components;
 
 use Cms\Classes\ComponentBase;
+use RainLab\Location\Models\Country;
+use  GreenImp\Offices\Classes\Groups;
 use GreenImp\Offices\Models\Group;
 use GreenImp\Offices\Models\Office;
 
@@ -60,5 +62,38 @@ class OfficeMap extends ComponentBase
       'office_id' => !is_null($this->office) ? $this->office->id : null,
       'map_type'  => !is_null($this->group->map_type) ? $this->group->map_type : 'office'
     ]);
+  }
+
+  public function dropdownItems(){
+    $items  = [];
+
+    switch($this->group->map_type){
+      case 'country':
+        // get a list of countries for the offices
+        Country
+          ::whereIn('id', $this->group->offices()->groupBy('country_id')->lists('country_id'))
+          ->groupBy('id')
+          ->orderBy('name')
+          ->get()
+          ->each(function($country) use(&$items){
+            $items[] = [
+              'url'       => Groups::getCountryURL($country),
+              'isActive'  => false,
+              'name'      => $country->name
+            ];
+          });
+        break;
+      default:
+        $this->group->offices->each(function($office) use(&$items){
+          $items[] = [
+            'url'       => $office->url($this->group),
+            'isActive'  => !is_null($this->office) && ($office->id == $this->office->id),
+            'name'      => $office->name
+          ];
+        });
+        break;
+    }
+
+    return $items;
   }
 }

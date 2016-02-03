@@ -120,7 +120,7 @@ class Map{
         $isFeatured = false;
 
         $feature->properties->description = '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>';
-        $feature->properties->url = '#';
+        $feature->properties->url = Groups::getCountryURL(Country::where('code', '=', $feature->properties->iso_a2)->first());
         $feature->properties->featured = $isFeatured;
 
         $geoJSON->features[$k] = $feature;

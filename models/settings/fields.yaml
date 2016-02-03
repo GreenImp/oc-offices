@@ -15,6 +15,12 @@ fields:
       required: true
       default: office
       comment: The page that displays the office information (It must contain the 'officePage' component and the URI must have a `group_id` and `office_id` property - /path/to/offices/:group_id/:office_id)
+    countryPage:
+      label: Country page
+      type: dropdown
+      required: true
+      default: office-country
+      comment: The page that displays the country office information (It must contain the 'officeList' component and the URI must have a `group_id` and `country_code` property - /path/to/offices/countries/:country_code)
 
     mapToken:
       label: Mapbox access token
