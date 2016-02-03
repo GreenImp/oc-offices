@@ -95,4 +95,8 @@ class Office extends Model
   public function url(){
     return \GreenImp\Offices\Classes\Groups::getOfficeURL($this, $this->group);
   }
+
+  public function fullAddress(){
+    return trim($this->address . PHP_EOL . $this->city . PHP_EOL . $this->zip);
+  }
 }
