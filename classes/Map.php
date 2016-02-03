@@ -68,7 +68,8 @@ class Map{
           'marker-symbol' => $isFeatured ? 'star' : 'circle',
           'description'   => '<div class="marker-title">' . $item->name . '</div><p>Click to view</p>',
           'url'           => $item->url(),
-          'featured'      => $isFeatured
+          'featured'      => $isFeatured,
+          'reference_id'  => $item->id
         ]
       ];
     });
@@ -138,6 +139,7 @@ class Map{
 
         $feature->properties->description = '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>';
         $feature->properties->featured    = $isFeatured;
+        $feature->properties->reference_id =  $feature->properties->iso_a2;
 
         // this links a country to the first office for that country (Within the group)
         $feature->properties->url = !is_null($office) ? $office->url() : null;
