@@ -29,10 +29,6 @@ fields:
 tabs:
   defaultTab: Details
   fields:
-    image:
-      label: Image
-      type: mediafinder
-      mode: image
     group:
       label: Group
       type: relation
@@ -104,3 +100,24 @@ tabs:
       path: $/greenimp/offices/models/office/_contact_field.htm
       tab: Contacts
 
+    image:
+      label: Main Image
+      type: mediafinder
+      mode: image
+      tab: Images
+    images:
+      label: Images
+      commentAbove: Drag and drop to re-order. The first image is used as the feature image.
+      type: repeater
+      form:
+        fields:
+          image:
+            label: Image
+            type: mediafinder
+            mode: image
+            required: true
+            span: left
+          label:
+            label: Label
+            span: right
+      tab: Images

@@ -30,3 +30,13 @@
 {% endif %}
 
 {{ office.description|raw }}
+
+{% if office.images %}
+<ul class="small-block-grid-2 medium-block-grid-4">
+  {% for image in office.images %}
+  <li>
+    <img src="{{ image.image }}" alt="{{ image.label|default(office.name) }}">
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

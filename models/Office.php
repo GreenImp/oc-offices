@@ -11,52 +11,53 @@ class Office extends Model
   use \October\Rain\Database\Traits\Sluggable;
   use \October\Rain\Database\Traits\Validation;
 
-    /**
-     * @var string The database table used by the model.
-     */
-    public $table = 'greenimp_offices_offices';
+  /**
+   * @var string The database table used by the model.
+   */
+  public $table = 'greenimp_offices_offices';
 
-    /**
-     * @var array Guarded fields
-     */
-    protected $guarded = ['id', 'url_slug'];
+  /**
+   * @var array Guarded fields
+   */
+  protected $guarded = ['id', 'url_slug'];
 
-    /**
-     * @var array Fillable fields
-     */
-    protected $fillable = [
-        'name',
-        'address',
-        'image',
-        'location',
-        'country_id',
-        'latitude',
-        'longitude',
-        'active',
-        'group_id',
-        'description'
-    ];
+  /**
+   * @var array Fillable fields
+   */
+  protected $fillable = [
+    'name',
+    'address',
+    'image',
+    'location',
+    'country_id',
+    'latitude',
+    'longitude',
+    'active',
+    'group_id',
+    'description',
+    'images'
+  ];
 
-    /**
-     * @var array Relations
-     */
-    public $hasOne = [
-    ];
-    public $hasMany = [
-      'contacts' => 'GreenImp\Offices\Models\Contact'
-    ];
-    public $belongsTo = [
-      'group' => [
-        'GreenImp\Offices\Models\Group',
-        'scope' => 'isActive'
-      ]
-    ];
-    public $belongsToMany = [];
-    public $morphTo = [];
-    public $morphOne = [];
-    public $morphMany = [];
-    public $attachOne = [];
-    public $attachMany = [];
+  /**
+   * @var array Relations
+   */
+  public $hasOne = [
+  ];
+  public $hasMany = [
+    'contacts' => 'GreenImp\Offices\Models\Contact'
+  ];
+  public $belongsTo = [
+    'group' => [
+      'GreenImp\Offices\Models\Group',
+      'scope' => 'isActive'
+    ]
+  ];
+  public $belongsToMany = [];
+  public $morphTo = [];
+  public $morphOne = [];
+  public $morphMany = [];
+  public $attachOne = [];
+  public $attachMany = [];
 
   public $implement = [
     'RainLab.Translate.Behaviors.TranslatableModel',
@@ -64,6 +65,8 @@ class Office extends Model
   ];
 
   public $translatable  = ['name', 'description'];
+
+  public $jsonable  = ['images'];
 
   protected $slugs = ['url_slug' => 'name'];
 

@@ -17,6 +17,7 @@ class CreateOfficesTable extends Migration
           $table->string('url_slug', 255);
           $table->string('image', 2000)->nullable();
           $table->longText('description')->nullable();
+          $table->longText('images')->nullable();
           $table->string('location')->nullable();
           $table->longText('address')->nullable();
           $table->string('city')->nullable();
