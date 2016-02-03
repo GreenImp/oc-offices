@@ -41,7 +41,7 @@ tabs:
     address:
       label: Building name/street
       type: textarea
-      size: tiny
+      size: small
       required: true
       tab: Location
 
@@ -78,7 +78,7 @@ tabs:
     location:
       label: Location
       type: addressfinder
-      comment: Enter your City or Zip/Postcode
+      comment: Enter your City or Zip/Postcode to generate the Latitude and Longitude values
       tab: Location
       fieldMap:
         latitude: latitude
