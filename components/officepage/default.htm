@@ -35,7 +35,13 @@
 <ul class="small-block-grid-2 medium-block-grid-4">
   {% for image in office.images %}
   <li>
-    <img src="{{ image.image }}" alt="{{ image.label|default(office.name) }}">
+    {% if image.url %}
+    <a href="{{ image.url }}" target="_blank">
+    {% endif %}
+      <img src="{{ image.image }}" alt="{{ image.label|default(office.name) }}">
+    {% if image.url %}
+    </a>
+    {% endif %}
   </li>
   {% endfor %}
 </ul>

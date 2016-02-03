@@ -120,4 +120,6 @@ tabs:
           label:
             label: Label
             span: right
+          url:
+            label: URL
       tab: Images
