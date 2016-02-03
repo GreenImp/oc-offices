@@ -162,9 +162,10 @@
 
       // loop through each map container and initialise the map
       $('[data-' + lib.namespace + ']').each(function(i, elm){
-        var $container  = $(this),
-            mapType     = $container.attr('data-' + lib.namespace + '-type'),
-            geoJSON     = $.Deferred();
+        var $container      = $(this),
+            mapType         = $container.attr('data-' + lib.namespace + '-type'),
+            geoJSON         = $.Deferred(),
+            featuredFilter;
 
 
         // create the map
@@ -263,6 +264,14 @@
             $.each(data.data.features, function(i, feature){
               // check if this is a featured marker
               if(feature.properties.featured){
+                // store the filter for the featured feature
+                featuredFilter = ['==', 'iso_a2', feature.properties.iso_a2];
+
+                // filter the hover effect layer
+                if(map.getLayer(mapType + '-hover')){
+                  map.setFilter(mapType + '-hover', featuredFilter);
+                }
+
                 // pan to the featured marker
                 map.panTo(getFeatureCenter(feature));
               }
@@ -305,14 +314,20 @@
 
                 // filter the hover effect layer
                 if(map.getLayer(mapType + '-hover')){
-                  map.setFilter(mapType + '-hover', ['==', 'iso_a2', features[0].properties.iso_a2]);
+                  // get the filter for the hovered feature
+                  var filter = ['==', 'iso_a2', features[0].properties.iso_a2];
+
+                  // set the filter (including the featured filter, if set)
+                  map.setFilter(mapType + '-hover', featuredFilter ? ['any', featuredFilter, filter] : filter);
                 }
               }else{
+                // remove the popup
                 popup.remove();
 
-                // filter the hover effect layer
+                // hide the hover effect layer
                 if(map.getLayer(mapType + '-hover')){
-                  map.setFilter(mapType + '-hover', ['==', 'iso_a2', '']);
+                  // if we have a featured filter we still want to show it
+                  map.setFilter(mapType + '-hover', featuredFilter || ['==', 'iso_a2', '']);
                 }
               }
             });
