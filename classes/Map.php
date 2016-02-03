@@ -117,11 +117,33 @@ class Map{
         // country doesn't have any office - remove it
         unset($geoJSON->features[$k]);
       }else{
-        $isFeatured = false;
+        $country    = Country::where('code', '=', $feature->properties->iso_a2)->first();
+
+        // get the office
+        if(!is_null($country)){
+          if(is_numeric($groupID)){
+            // group defined - get the group and its offices
+            $office = Group::isActive()->findOrFail($groupID)->offices();
+          }else{
+            // no group - get all offices
+            $office = Office::isActive();
+          }
+
+          $office = $office->where('country_id', '=', $country->id)->first();
+        }else{
+          $office = null;
+        }
+
+        $isFeatured = (is_numeric($officeID) && !is_null($office) && ($officeID == $office->id));
 
         $feature->properties->description = '<div class="marker-title">' . $feature->properties->name . '</div><p>Click to view</p>';
-        $feature->properties->url = Groups::getCountryURL(Country::where('code', '=', $feature->properties->iso_a2)->first());
-        $feature->properties->featured = $isFeatured;
+        $feature->properties->featured    = $isFeatured;
+
+        // this links a country to the first office for that country (Within the group)
+        $feature->properties->url = !is_null($office) ? $office->url() : null;
+
+        // this links the country to all of its offices (Within the group)
+        //$feature->properties->url = Groups::getCountryURL(Country::where('code', '=', $feature->properties->iso_a2)->first());
 
         $geoJSON->features[$k] = $feature;
       }

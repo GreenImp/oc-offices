@@ -70,7 +70,22 @@ class OfficeMap extends ComponentBase
     switch($this->group->map_type){
       case 'country':
         // get a list of countries for the offices
-        Country
+
+        // this links a country to the first office for that country (Within the group)
+        $this->group->offices()->groupBy('country_id')->get()->each(function($office) use(&$items){
+          $country = Country
+            ::where('id', $office->country_id)
+            ->first();
+
+          $items[] = [
+            'url'       => $office->url($this->group),
+            'isActive'  => !is_null($this->office) && ($office->id == $this->office->id),
+            'name'      => $country->name
+          ];
+        });
+
+        // this links the country to all of its offices (Within the group)
+        /*Country
           ::whereIn('id', $this->group->offices()->groupBy('country_id')->lists('country_id'))
           ->groupBy('id')
           ->orderBy('name')
@@ -81,12 +96,12 @@ class OfficeMap extends ComponentBase
               'isActive'  => false,
               'name'      => $country->name
             ];
-          });
+          });*/
         break;
       default:
         $this->group->offices->each(function($office) use(&$items){
           $items[] = [
-            'url'       => $office->url($this->group),
+            'url'       => $office->url(),
             'isActive'  => !is_null($this->office) && ($office->id == $this->office->id),
             'name'      => $office->name
           ];
