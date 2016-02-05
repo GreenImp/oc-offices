@@ -1,0 +1,32 @@
+{%if office.image %}
+<img src="{{ office.image|media }}" alt="{{ office.name }}">
+{% endif %}
+
+<h3>
+  {{ office.name }}
+
+  <small>{{ office.group.name }} - {{office.country.name}}</small>
+</h3>
+
+{{ office.description|raw }}
+
+
+<h4>{{ 'Contacts'|_ }}</h4>
+
+<dl>
+  <dt>{{ 'Address'|_ }}</dt>
+  <dd>
+    {{ office.fullAddress|nl2br }}
+  </dd>
+
+  {% for contact in office.contacts %}
+  <dt>{{ contact.label|default(contact.type) }}</dt>
+  <dd>
+    {% if contact.type == 'email' %}
+      {{ html_email(contact.value) }}
+    {%  else %}
+      {{ contact.value }}
+    {% endif %}
+  </dd>
+  {% endfor %}
+</dl>

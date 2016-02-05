@@ -4,54 +4,7 @@
   <ul class="list-group">
     {% for office in __SELF__.offices %}
       <li class="list-group-item">
-        {%if office.image %}
-        <img src="{{ office.image }}" alt="{{ office.name }}">
-        {% endif %}
-
-        <h3>
-          {{ office.name }}
-
-          <small>{{ office.group.name }} - {{office.country.name}}</small>
-        </h3>
-
-        {{ office.description|raw }}
-
-
-        <h4>{{ 'Contacts'|_ }}</h4>
-
-        <dl>
-          <dt>{{ 'Address'|_ }}</dt>
-          <dd>
-            {{ office.address }}
-
-            {% if office.city %}
-            <br>{{ office.city }}
-            {% endif %}
-
-            {% if office.state %}
-            <br>{{ office.state.name }}
-            {% endif %}
-
-            {% if office.zip %}
-            <br>{{ office.zip }}
-            {% endif %}
-
-            {% if office.country %}
-            <br>{{ office.country.name }}
-            {% endif %}
-          </dd>
-
-          {% for contact in office.contacts %}
-          <dt>{{ contact.label|default(contact.type) }}</dt>
-          <dd>
-            {% if contact.type == 'email' %}
-              {{ html_email(contact.value) }}
-            {%  else %}
-              {{ contact.value }}
-            {% endif %}
-          </dd>
-          {% endfor %}
-        </dl>
+        {% partial __SELF__ ~ "::item" contacts=office %}
       </li>
     {% endfor %}
   </ul>

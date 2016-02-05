@@ -4,7 +4,6 @@
   <header class="office-heading">
     {% if office.image %}
     <div class="office-image">
-      {#<img src="{{ office.image }}" alt="{{ office.name }}">#}
       <img src="{{ office.image|media }}" alt="{{ office.name }}">
     </div>
     {% endif %}
