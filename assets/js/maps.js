@@ -305,8 +305,8 @@
             },
             function(err, features){
               if(!err && features.length){
-                // Change the cursor style as a UI indicator.
-                map.getCanvas().style.cursor = (!err && features.length) ? 'pointer' : '';
+                // Change the cursor style as a UI indicator
+                map.getCanvas().style.cursor = 'pointer';
 
                 var feature = features[0];
 
@@ -327,6 +327,9 @@
                   map.setFilter(mapType + '-hover', featuredFilter ? ['any', featuredFilter, filter] : filter);
                 }
               }else{
+                // Change the cursor style back to normal
+                map.getCanvas().style.cursor = '';
+
                 // remove the popup
                 popup.remove();
 
