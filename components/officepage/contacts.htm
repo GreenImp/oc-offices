@@ -1,0 +1,17 @@
+{% if contacts.count > 0 %}
+<ul class="chevron office-contact-list">
+  {% for contact in office.contacts %}
+  <li class="{{ contact.type }}">
+    <strong>{{ contact.label|default(contact.type) }}:</strong>
+
+    {% if contact.type == 'email' %}
+      <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
+    {% elseif contact.type == 'tel' and contact.value matches '/^(\\+ *)?[\\d ]+$/' %}
+      <a href="tel:{{ contact.value }}">{{ contact.value }}</a>
+    {% else %}
+      {{ contact.value }}
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

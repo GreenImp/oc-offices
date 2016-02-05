@@ -2,7 +2,7 @@
 
 {% if office.image %}
 <div class="office-image">
-  <img src="{{ office.image }}" alt="{{ office.name }}">
+  <img src="{{ office.image|media }}" alt="{{ office.name }}">
 </div>
 {% endif %}
 
@@ -12,37 +12,8 @@
   {{ office.fullAddress|nl2br }}
 </address>
 
-{% if office.contacts.count > 0 %}
-<ul class="chevron office-contact-list">
-  {% for contact in office.contacts %}
-  <li class="{{ contact.type }}">
-    <strong>{{ contact.label|default(contact.type) }}:</strong>
-    {% if contact.type == 'email' %}
-      <a href="mailto:{{ contact.value }}">{{ contact.value }}</a>
-    {% elseif contact.type == 'tel' and contact.value matches '/^(\\+ *)?[\\d ]+$/' %}
-    <a href="tel:{{ contact.value }}">{{ contact.value }}</a>
-    {% else %}
-      {{ contact.value }}
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
+{% partial __SELF__ ~ "::contacts" contacts=office.contacts %}
 
 {{ office.description|raw }}
 
-{% if office.images %}
-<ul class="small-block-grid-2 medium-block-grid-4">
-  {% for image in office.images %}
-  <li>
-    {% if image.url %}
-    <a href="{{ image.url }}" target="_blank">
-    {% endif %}
-      <img src="{{ image.image }}" alt="{{ image.label|default(office.name) }}">
-    {% if image.url %}
-    </a>
-    {% endif %}
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
+{% partial __SELF__ ~ "::images" images=office.images %}

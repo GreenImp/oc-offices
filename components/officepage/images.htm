@@ -1,0 +1,15 @@
+{% if images %}
+<ul class="small-block-grid-2 medium-block-grid-4">
+  {% for image in images %}
+  <li>
+    {% if image.url %}
+    <a href="{{ image.url }}" target="_blank">
+      {% endif %}
+      <img src="{{ image.image|media }}" alt="{{ image.label|default(office.name) }}">
+      {% if image.url %}
+    </a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
