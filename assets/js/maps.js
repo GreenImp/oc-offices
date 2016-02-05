@@ -230,26 +230,30 @@
                   'paint': {
                     'fill-color': '#FF6600'
                   },
-                  'filter': ['==', 'iso_a2', '']
+                  'filter': ['==', 'reference_id', '']
                 });
                 break;
               case 'office':
                 map.addLayer({
                   'id': mapType,
                   'interactive': true,
-                  "type": "symbol",
+                  "type": 'circle',
                   "source": "features",
-                  "layout": {
-                    "icon-image": "{marker-symbol}-18",
-                    "text-field": "{label}",
-                    "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                    "text-offset": [0, 0.6],
-                    "text-anchor": "top",
-                    'icon-allow-overlap': true
-                  },
                   "paint": {
-                    "text-size": 12
+                    'circle-color': '#2398d3',
+                    'circle-radius': 8
                   }
+                });
+
+                map.addLayer({
+                  'id': mapType + '-hover',
+                  'type': 'circle',
+                  'source': 'features',
+                  'paint': {
+                    'circle-color': '#FF6600',
+                    'circle-radius': 10
+                  },
+                  'filter': ['==', 'reference_id', '']
                 });
                 break;
               default:
@@ -265,7 +269,7 @@
               // check if this is a featured marker
               if(feature.properties.featured){
                 // store the filter for the featured feature
-                featuredFilter = ['==', 'iso_a2', feature.properties.iso_a2];
+                featuredFilter = ['==', 'reference_id', feature.properties.reference_id];
 
                 // filter the hover effect layer
                 if(map.getLayer(mapType + '-hover')){
@@ -315,7 +319,7 @@
                 // filter the hover effect layer
                 if(map.getLayer(mapType + '-hover')){
                   // get the filter for the hovered feature
-                  var filter = ['==', 'iso_a2', features[0].properties.iso_a2];
+                  var filter = ['==', 'reference_id', features[0].properties.reference_id];
 
                   // set the filter (including the featured filter, if set)
                   map.setFilter(mapType + '-hover', featuredFilter ? ['any', featuredFilter, filter] : filter);
@@ -327,7 +331,7 @@
                 // hide the hover effect layer
                 if(map.getLayer(mapType + '-hover')){
                   // if we have a featured filter we still want to show it
-                  map.setFilter(mapType + '-hover', featuredFilter || ['==', 'iso_a2', '']);
+                  map.setFilter(mapType + '-hover', featuredFilter || ['==', 'reference_id', '']);
                 }
               }
             });
