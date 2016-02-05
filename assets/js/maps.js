@@ -71,27 +71,29 @@
      * @param feature
      * @returns {*[]}
      */
-    var getFeatureBounds  = function(feature){
+    var getFeatureBounds  = function(feature, padding){
       var geometry  = feature.geometry,
           bounds    = [[], []];
+
+      padding = (padding > 0) ? padding : 0;
 
       switch(geometry.type){
         case 'Point':
           // calculate the min bounds
-          bounds[0][0] = geometry.coordinates[0];
-          bounds[0][1] = geometry.coordinates[1];
+          bounds[0][0] = geometry.coordinates[0] - padding;
+          bounds[0][1] = geometry.coordinates[1] - padding;
 
           // calculate the min bounds
-          bounds[1][0] = geometry.coordinates[0];
-          bounds[1][1] = geometry.coordinates[1];
+          bounds[1][0] = geometry.coordinates[0] + padding;
+          bounds[1][1] = geometry.coordinates[1] + padding;
           break;
         case 'Polygon':
           // loop through only the first coordinate array, as this is the exterior shape
           // @link http://geojson.org/geojson-spec.html#polygon
           $.each(geometry.coordinates[0], function(i, coords){
             bounds = getLargestBounds(bounds, [
-              [coords[0], coords[1]],
-              [coords[0], coords[1]]
+              [coords[0] - padding, coords[1] - padding],
+              [coords[0] + padding, coords[1] + padding]
             ]);
           });
           break;
@@ -105,7 +107,7 @@
                 type: 'Polygon',
                 coordinates: section
               }
-            });
+            }, padding);
 
             bounds = getLargestBounds(bounds, sBounds);
           });
@@ -122,12 +124,12 @@
      * @param collection
      * @returns {*[]}
      */
-    var getCollectionBounds = function(collection){
+    var getCollectionBounds = function(collection, padding){
       // get the marker bounds
       var bounds    = [[], []];
 
       $.each(collection, function(i, feature){
-        bounds = getLargestBounds(bounds, getFeatureBounds(feature));
+        bounds = getLargestBounds(bounds, getFeatureBounds(feature, padding));
       });
 
       return bounds;
@@ -262,7 +264,7 @@
             }
 
             // fit the map to the markers
-            map.fitBounds(getCollectionBounds(data.data.features));
+            map.fitBounds(getCollectionBounds(data.data.features, 5));
 
             // find the featured feature (if any) and pan to it
             $.each(data.data.features, function(i, feature){
