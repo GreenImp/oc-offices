@@ -19,12 +19,12 @@ class Contact extends Model
   /**
    * @var array Guarded fields
    */
-  protected $guarded = ['*'];
+  protected $guarded = [];
 
   /**
    * @var array Fillable fields
    */
-  protected $fillable = [];
+  protected $fillable = ['type', 'value', 'label'];
 
   /**
    * @var array Relations

@@ -20,7 +20,7 @@ class Group extends Model
     /**
      * @var array Guarded fields
      */
-    protected $guarded = ['*'];
+    protected $guarded = ['id', 'url_slug'];
 
     /**
      * @var array Fillable fields
@@ -32,7 +32,7 @@ class Group extends Model
      */
     public $hasOne = [];
     public $hasMany = [
-      'office' => [
+      'offices' => [
         'GreenImp\Offices\Models\Office',
         'scope' => 'isActive'
       ]
@@ -53,7 +53,7 @@ class Group extends Model
 
   public $rules = [
     'name'        => 'required|string|min:1',
-    'url_slug'    => 'required|string|min:1',
+    //'url_slug'    => 'required|string|min:1',
     'description' => 'string|min:1',
     'sort_order'  => 'integer',
     'active'      => 'required|boolean'
@@ -61,5 +61,12 @@ class Group extends Model
 
   public function scopeIsActive($query){
     return $query->where('active', true);
+  }
+
+  public function getMapTypeOptions(){
+    return [
+      'country' => 'Country',
+      'office'  => 'Single office'
+    ];
   }
 }

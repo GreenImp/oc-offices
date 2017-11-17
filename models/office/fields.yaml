@@ -11,11 +11,16 @@ fields:
       label: Name
       type: text
       required: true
-    group:
-      label: Group
-      type: relation
-      nameFrom: name
+      span: left
+    url_slug:
+      label: URL slug
+      type: text
       required: true
+      span: right
+      attributes:
+        data-input-preset: 'input[name="Office[name]"]'
+        data-input-preset-type: slug
+        data-input-preset-closest-parent: form
     active:
       label: Active
       type: switch
@@ -24,28 +29,97 @@ fields:
 tabs:
   defaultTab: Details
   fields:
-    image:
-      label: Image
-      type: mediafinder
-      mode: image
+    group:
+      label: Group
+      type: relation
+      nameFrom: name
+      required: true
     description:
       label: Description
       type: richeditor
+
+    address:
+      label: Building name/street
+      type: textarea
+      size: small
+      required: true
+      tab: Location
+
+    city:
+      label: City
+      type: text
+      span: left
+      tab: Location
+    zip:
+      label: Zip
+      type: text
+      span: right
+      tab: Location
 
     country:
       label: Country
       type: dropdown
       required: true
       placeholder: -- select --
+      span: left
       tab: Location
-    address:
-      label: Address
-      type: textarea
+    state:
+      label: State
+      type: dropdown
+      dependsOn: country
+      placeholder: -- select --
+      span: right
       tab: Location
 
-    contact:
+    geo_location_section:
+      label: Geo Location
+      type: section
+      tab: Location
+    location:
+      label: Location
+      type: addressfinder
+      comment: Enter your City or Zip/Postcode to generate the Latitude and Longitude values
+      tab: Location
+      fieldMap:
+        latitude: latitude
+        longitude: longitude
+    latitude:
+      label: Latitude
+      type: text
+      span: left
+      tab: Location
+    longitude:
+      label: Longitude
+      type: text
+      span: right
+      tab: Location
+
+    contacts:
       label: Contacts
       type: partial
       path: $/greenimp/offices/models/office/_contact_field.htm
       tab: Contacts
 
+    image:
+      label: Main Image
+      type: mediafinder
+      mode: image
+      tab: Images
+    images:
+      label: Images
+      commentAbove: Drag and drop to re-order. The first image is used as the feature image.
+      type: repeater
+      form:
+        fields:
+          image:
+            label: Image
+            type: mediafinder
+            mode: image
+            required: true
+            span: left
+          label:
+            label: Label
+            span: right
+          url:
+            label: URL
+      tab: Images

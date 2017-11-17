@@ -28,4 +28,8 @@ fields:
     description:
       label: Description
       type: richeditor
+    map_type:
+      label: Map Display
+      type: dropdown
+      comment: Choose whether the map should be shown as a general country selection, or if each office should be shown individually
 

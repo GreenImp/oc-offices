@@ -18,4 +18,12 @@ class Settings extends Model
   public function getGroupPageOptions(){
     return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
   }
+
+  public function getOfficePageOptions(){
+    return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+  }
+
+  public function getCountryPageOptions(){
+    return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+  }
 }

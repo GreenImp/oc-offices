@@ -14,9 +14,17 @@ class CreateOfficesTable extends Migration
           $table->increments('id');
           $table->integer('country_id')->unsigned();
           $table->string('name');
+          $table->string('url_slug', 255);
           $table->string('image', 2000)->nullable();
           $table->longText('description')->nullable();
+          $table->longText('images')->nullable();
+          $table->string('location')->nullable();
           $table->longText('address')->nullable();
+          $table->string('city')->nullable();
+          $table->string('zip')->nullable();
+          $table->integer('state_id')->unsigned()->nullable();
+          $table->decimal('latitude', 10, 8);
+          $table->decimal('longitude', 10, 8);
           $table->integer('group_id')->unsigned();
           $table->boolean('active')->default(false);
           $table->timestamps();

@@ -15,6 +15,7 @@ class CreateOfficeGroupsTable extends Migration
           $table->string('name');
           $table->string('url_slug', 255);
           $table->longText('description')->nullable();
+          $table->enum('map_type', ['country', 'office']);
           $table->integer('sort_order')->unsigned()->nullable();
           $table->boolean('active')->default(false);
           $table->timestamps();

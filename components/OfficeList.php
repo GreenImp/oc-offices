@@ -1,10 +1,13 @@
 <?php namespace GreenImp\Offices\Components;
 
 use Cms\Classes\ComponentBase;
+use RainLab\Location\Models\Country;
 use GreenImp\Offices\Models\Office;
 
 class OfficeList extends ComponentBase
 {
+  public $country;
+
   public function componentDetails()
   {
     return [
@@ -49,6 +52,11 @@ class OfficeList extends ComponentBase
     }
 
   public function onRun(){
+    $countryCode = $this->param('country_code');
+
+    if(!is_null($countryCode)){
+      $this->country = Country::isEnabled()->where('code', '=', $countryCode)->firstOrFail();
+    }
   }
 
   public function offices(){
@@ -66,6 +74,13 @@ class OfficeList extends ComponentBase
     if($group){
       $query->where('group_id', $group);
     }
+
+
+    // filter by country
+    if(!is_null($this->country)){
+      $query->where('country_id', '=', $this->country->id);
+    }
+
 
     return $query->get();
   }
